@@ -8,8 +8,9 @@
 		}
 	},
 	"icons":{
-		"16": "img/calculator-16.png",
-		"128": "img/calculator-128.png"
+		"16": "img/BatchAddressCheck.png",
+		"128": "img/BatchAddressCheck.png",
+		"source": "http://www.graphicsfuel.com/"
 	},
 	"permissions": [
     	"http://www.google.com/",

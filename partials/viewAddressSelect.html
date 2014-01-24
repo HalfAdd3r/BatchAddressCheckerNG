@@ -1,3 +1,23 @@
-<div class="jumbotron">
-	"Reconcile of Data Here"
-</div>
+
+<button type="submit" class="btn btn-default" id="fileUpload">Upload Data</button>
+<hr/>
+<div id="uploadData"></div>
+
+<table border="1" width=100%>
+	<tr>
+		<th>Count</th>
+		<th>Origional</th>
+		<th>Select</th>
+		<th>Suggested</th>
+	</tr>
+	
+	<tr ng-repeat="address in addresses">
+		<div>
+			<td>{{address.id}}</td>
+			<td>{{original.name}} <br/>{{original.address}} {{original.city}}</td>
+			<td>SELECT</td>
+			<td>{{suggested.name}} <br/>{{suggested.address}} {{suggested.city}}</td>
+		</div>
+	</tr>
+	
+</table>

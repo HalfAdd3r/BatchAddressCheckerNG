@@ -2,4 +2,24 @@
 	<button type="submit" class="btn btn-default" id="fileUpload">Upload Data</button>
 	<hr/>
 	<div id="uploadData"></div>
+
+	<table border="1">
+		<tr>
+			<th>Name</th>
+			<th>Address</th>
+			<th>City</th>
+		</tr>
+		
+		<tr ng-repeat="address in addresses">
+			<div >
+				<td>{{original.name}}</td>
+				<td>{{original.address}}</td>
+				<td>{{original.city}}</td>
+			</div>	
+		</tr>
+		
+	</table>
+
+
+
 </div>

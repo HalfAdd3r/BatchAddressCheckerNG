@@ -3,4 +3,24 @@
 	    <button type="submit" class="btn btn-default" id="soap">Run Web Service Address Check</button>
 	</div>
 </form>
-<div id='test'>Main Data Process</div>
+
+	<button type="submit" class="btn btn-default" id="fileUpload">Upload Data</button>
+	<hr/>
+	<div id="uploadData"></div>
+
+	<table border="1">
+		<tr>
+			<th>Count</th>
+			<th>Suggested Address</th>
+		</tr>
+		
+		<tr ng-repeat="address in addresses">
+			<div >
+				<td>{{address.id}}</td>
+				<td>{{suggested.name}}<br/>
+					{{suggested.address}} {{suggested.city}}
+				</td>
+			</div>	
+		</tr>
+		
+	</table>

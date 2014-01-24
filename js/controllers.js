@@ -5,14 +5,63 @@
 var BatchAddress = angular.module('BatchAddress', ['ngRoute']);
 
 BatchAddress.controller('MainCtrl', function($scope) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.'}
-  ];
+
+
+  $scope.addresses = [];
+
+  $scope.address=[];
+  $scope.address2=[];
+  $scope.original=[];
+  $scope.suggested =[];
+
+
+
+  // $scope.original.push({
+  //   "name":"bobby",
+  //   "address":"1 main st",
+  //   "city":"Dayton"
+  // });
+
+  $scope.original={
+    "name":"bobby",
+    "address":"1 main st",
+    "city":"Dayton"
+  };
+
+  $scope.suggested = ({
+    "name":"suzzy",
+    "address":"1 secondary st",
+    "city":"Saco"
+  });
+
+
+  $scope.address2 ={
+    "id":1,
+    "status":"unchecked",
+    "original": $scope.original,
+    "suggested": $scope.suggested
+  };
+
+  $scope.addresses.push($scope.address2);
+
+
+  $scope.address={
+    "id":2,
+    "status":"checked",
+    "original": $scope.original,
+    "suggested": $scope.suggested
+  };
+
+  $scope.addresses.push($scope.address);
+
+  $scope.fdxCredentials = {
+    'account': '123',
+    'key': '234',
+    'meter': '345',
+    'password': '456'
+  };
+
+
 
 });
 

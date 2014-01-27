@@ -8,9 +8,9 @@
 		}
 	},
 	"icons":{
-		"16": "img/BatchAddressCheck.png",
-		"128": "img/BatchAddressCheck.png",
-		"source": "http://www.graphicsfuel.com/"
+		"96": "img/RoundIcons-Free-Set-31-96.png",
+		"128": "img/RoundIcons-Free-Set-31-128.png",
+		"source": "http://www.smashingmagazine.com/2014/01/24/roundicons-set-60-icons-png-ai-source/"
 	},
 	"permissions": [
     	"http://www.google.com/",

@@ -54,16 +54,34 @@ BatchAddress.controller('MainCtrl', function($scope) {
 
   $scope.addresses.push($scope.address);
 
-  $scope.fdxCredentials = {
-    'account': '123',
-    'key': '234',
-    'meter': '345',
-    'password': '456'
-  };
-
-
-
 });
+
+
+// ----------------------------------------
+// Settings Screen Controller
+// ----------------------------------------
+BatchAddress.controller('SettingsCtrl', function($scope) {
+  // Declare
+  var chromeStore = chrome.storage.local;
+
+  // Base empty Scope
+  $scope.fdxCredentials = {};
+
+  // Recover "value2" from storage
+  chromeStore.get('BatchAddress', function(value){
+    console.log (value.BatchAddress);
+    $scope.$apply(function() {
+      //$scope.fdxCredentials.meter = value.value2.meter;
+      $scope.fdxCredentials = value.BatchAddress;
+    });
+  });
+
+  $scope.update = function(){
+    //console.log(value);
+    chromeStore.set({'BatchAddress': $scope.fdxCredentials});
+  };
+});
+
 
 
  
@@ -88,7 +106,7 @@ BatchAddress.config(['$routeProvider',
       }).
       when('/settings', {
         templateUrl: 'partials/viewSettings.html',
-        controller: 'MainCtrl'
+        controller: 'SettingsCtrl'
       }).
       otherwise({
         redirectTo: '/fileLoad'

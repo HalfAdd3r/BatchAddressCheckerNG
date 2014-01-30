@@ -4,21 +4,21 @@
 	 		<p class="help-block">FedEx API Settings Entry</p>
 	 		<div class="form-group">
 				<label for="FedExAccount">Account</label>
-				<input type="text" class="form-control" id="FedExAccount" placeholder="">
+				<input type="text" ng-model="fdxCredentials.account">
 			</div>
 	 		<div class="form-group">
 				<label for="FedExKey">Key</label>
-				<input type="text" class="form-control" id="FedExKey">
+				<input type="text" ng-model="fdxCredentials.key">
 			</div>
 	 		<div class="form-group">
 				<label for="FedExMeter">Meter</label>
-				<input type="text" class="form-control" id="FedExMeter">
+				<input type="text" ng-model="fdxCredentials.meter">
 			</div>
 	 		<div class="form-group">
 				<label for="FedExPassword">Password</label>
-				<input type="text" class="form-control" id="FedExPassword">
+				<input type="text" ng-model="fdxCredentials.password">
 			</div>
-			<button type="submit" class="btn btn-default" id="settingChange">Update Values</button>
+			<button ng-click="update()">Update Values</button>
 		</form> <!-- END FORM -->
 	</div>
 

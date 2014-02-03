@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var BatchAddress = angular.module('BatchAddress', ['ngRoute']);
+var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'fileHandler']);
 
 BatchAddress.controller('MainCtrl', function($scope) {
 
@@ -44,21 +44,40 @@ BatchAddress.controller('MainCtrl', function($scope) {
 
   $scope.addresses.push($scope.address2);
 
+  $scope.neworiginal={
+    "name":"Marry",
+    "address":"1 main st",
+    "city":"Dayton"
+  };
 
   $scope.address={
     "id":2,
     "status":"checked",
-    "original": $scope.original,
+    "original": $scope.neworiginal,
     "suggested": $scope.suggested
   };
 
   $scope.addresses.push($scope.address);
 
+
+  $scope.getFile = function () {
+        $scope.progress = 0;
+        fileReader.readAsDataUrl($scope.file, $scope)
+                      .then(function(result) {
+                          $scope.imageSrc = result;
+                      });
+    };
+
 });
 
 
+
+
+
 // ----------------------------------------
-// Settings Screen Controller
+// Controller - Screen Settings
+//
+// Values stored in html5 localstorage using Chrome api
 // ----------------------------------------
 BatchAddress.controller('SettingsCtrl', function($scope) {
   // Declare
@@ -69,22 +88,41 @@ BatchAddress.controller('SettingsCtrl', function($scope) {
 
   // Recover "value2" from storage
   chromeStore.get('BatchAddress', function(value){
-    console.log (value.BatchAddress);
     $scope.$apply(function() {
-      //$scope.fdxCredentials.meter = value.value2.meter;
       $scope.fdxCredentials = value.BatchAddress;
     });
   });
 
+  // Button Handler - update stored value
   $scope.update = function(){
-    //console.log(value);
     chromeStore.set({'BatchAddress': $scope.fdxCredentials});
   };
 });
 
 
+// ----------------------------------------
+// Directive - loadFile
+//
+// Gets file and loads values into Scope
+// ----------------------------------------
+BatchAddress.directive('loadFile', function(){
+  return{
+    // Link new function to element el and involve declared scope
+    link: function($scope, el){
+      el.bind('change', function(e){ // bind on change event
+        // Add new scope value "uploadFile" and apply
+        $scope.uploadFile = (e.srcElement || e.target).files[0]; // Live File added to socpe
+        $scope.$apply(); // Apply to scope
+      });
+    }
+  };
+});
 
- 
+
+
+// ----------------------------------------
+// Route - Main provider for Project
+// ----------------------------------------
 BatchAddress.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.

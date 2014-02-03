@@ -1,8 +1,6 @@
 <div id="tabs2-pane1" class="tab-pane active">
-	<button type="submit" class="btn btn-default" id="fileUpload">Upload Data</button>
+	<input type="file" load-file></button>
 	<hr/>
-	<div id="uploadData"></div>
-
 	<table border="1">
 		<tr>
 			<th>Name</th>
@@ -11,11 +9,7 @@
 		</tr>
 		
 		<tr ng-repeat="address in addresses">
-			<div >
-				<td>{{original.name}}</td>
-				<td>{{original.address}}</td>
-				<td>{{original.city}}</td>
-			</div>	
+			<td>{{original.name}}</td><td>{{original.address}}</td><td>{{original.city}}</td>
 		</tr>
 		
 	</table>

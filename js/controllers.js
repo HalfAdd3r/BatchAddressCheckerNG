@@ -2,11 +2,24 @@
 
 /* Controllers */
 
-var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'fileHandler']);
+var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
 
-BatchAddress.controller('MainCtrl', function($scope) {
+BatchAddress.controller('MainCtrl', function($scope, MyService) {
 
 
+// MESSY PLAYING WITH MODULES AND FACTORIES
+  console.log(MyService.value);
+
+  MyService.getNew($scope);
+
+  console.log($scope.bobby);
+// MESSY PLAYING WITH MODULES AND FACTORIES
+
+
+
+
+
+// LEARNING ABOUT SCOPE--------------------
   $scope.addresses = [];
 
   $scope.address=[];
@@ -58,15 +71,19 @@ BatchAddress.controller('MainCtrl', function($scope) {
   };
 
   $scope.addresses.push($scope.address);
+// LEARNING ABOUT SCOPE--------------------
 
 
-  $scope.getFile = function () {
+
+
+
+/*  $scope.getFile = function () {
         $scope.progress = 0;
         fileReader.readAsDataUrl($scope.file, $scope)
                       .then(function(result) {
                           $scope.imageSrc = result;
                       });
-    };
+    };*/
 
 });
 

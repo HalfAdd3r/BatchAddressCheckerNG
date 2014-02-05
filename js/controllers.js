@@ -7,14 +7,6 @@ var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
 BatchAddress.controller('MainCtrl', function($scope, MyService) {
 
 
-// MESSY PLAYING WITH MODULES AND FACTORIES
-  console.log(MyService.value);
-
-  MyService.getNew($scope);
-
-  console.log($scope.bobby);
-// MESSY PLAYING WITH MODULES AND FACTORIES
-
 
 
 
@@ -29,62 +21,15 @@ BatchAddress.controller('MainCtrl', function($scope, MyService) {
 
 
 
-  // $scope.original.push({
-  //   "name":"bobby",
-  //   "address":"1 main st",
-  //   "city":"Dayton"
-  // });
 
-  $scope.original={
-    "name":"bobby",
-    "address":"1 main st",
-    "city":"Dayton"
+
+
+  $scope.readFile = function () {
+    $scope.addresses = [];
+    MyService.fileCSVParse($scope.uploadFile, $scope);
+    
   };
-
-  $scope.suggested = ({
-    "name":"suzzy",
-    "address":"1 secondary st",
-    "city":"Saco"
-  });
-
-
-  $scope.address2 ={
-    "id":1,
-    "status":"unchecked",
-    "original": $scope.original,
-    "suggested": $scope.suggested
-  };
-
-  $scope.addresses.push($scope.address2);
-
-  $scope.neworiginal={
-    "name":"Marry",
-    "address":"1 main st",
-    "city":"Dayton"
-  };
-
-  $scope.address={
-    "id":2,
-    "status":"checked",
-    "original": $scope.neworiginal,
-    "suggested": $scope.suggested
-  };
-
-  $scope.addresses.push($scope.address);
-// LEARNING ABOUT SCOPE--------------------
-
-
-
-
-
-/*  $scope.getFile = function () {
-        $scope.progress = 0;
-        fileReader.readAsDataUrl($scope.file, $scope)
-                      .then(function(result) {
-                          $scope.imageSrc = result;
-                      });
-    };*/
-
+      
 });
 
 
@@ -130,6 +75,8 @@ BatchAddress.directive('loadFile', function(){
         // Add new scope value "uploadFile" and apply
         $scope.uploadFile = (e.srcElement || e.target).files[0]; // Live File added to socpe
         $scope.$apply(); // Apply to scope
+
+        $scope.readFile();
       });
     }
   };

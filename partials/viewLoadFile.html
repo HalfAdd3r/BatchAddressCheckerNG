@@ -1,15 +1,24 @@
 <div id="tabs2-pane1" class="tab-pane active">
 	<input type="file" load-file></button>
 	<hr/>
+
 	<table border="1">
 		<tr>
 			<th>Name</th>
-			<th>Address</th>
+			<th>Company</th>
+			<th>Address 1</th>
+			<th>Address 2</th>
 			<th>City</th>
 		</tr>
 		
 		<tr ng-repeat="address in addresses">
-			<td>{{original.name}}</td><td>{{original.address}}</td><td>{{original.city}}</td>
+			<!-- <td>{{original.name}}</td><td>{{original.address}}</td><td>{{original.city}}</td> -->
+
+			<td>{{address.name}}</td>
+			<td>{{address.company}}</td>
+			<td>{{address.address1}}</td>
+			<td>{{address.address2}}</td>
+			<td>{{address.city}}</td>
 		</tr>
 		
 	</table>

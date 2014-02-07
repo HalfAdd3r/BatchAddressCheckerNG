@@ -5,32 +5,19 @@
 var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
 
 BatchAddress.controller('MainCtrl', function($scope, MyService) {
-
-
-
-
-
-
-// LEARNING ABOUT SCOPE--------------------
+  // Init Address Scope
   $scope.addresses = [];
 
-  $scope.address=[];
-  $scope.address2=[];
-  $scope.original=[];
-  $scope.suggested =[];
 
-
-
-
-
-
+  /*
+  readFile - External function
+    loads data into scope from csv file
+  */
   $scope.readFile = function () {
     $scope.addresses = [];
     MyService.fileCSVParse($scope.uploadFile, $scope);
-    
   };
-      
-});
+}); 
 
 
 

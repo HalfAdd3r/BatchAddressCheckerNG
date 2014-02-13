@@ -8,13 +8,6 @@ angular.module('filehandler', []).
     factory('MyService', function($http) {
         var MyService = {};
 
-        function init () {
-        	MyService.value = 1234567;
-        }
-
-        init();
-
-
         function parseCSVtoJSON (rawText, scope) {
             var mainDataObj = [];
             var header = [];
@@ -52,19 +45,70 @@ angular.module('filehandler', []).
 
 
     	MyService.fileCSVParse = function (file, scope){
-    		scope.bobby = "New world order";
-
-            var reader = new FileReader();
+    		var reader = new FileReader();
             reader.onload = function (e){
                 parseCSVtoJSON(e.target.result, scope);
                 //console.log(e.target.result);
             };
 
             reader.readAsText(file);
+        };
 
+
+
+        MyService.fileWriteCSV = function (file, scope){
+
+
+/*            chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
+                console.log("wakka");
+                writableFileEntry.createWriter(function(writer) {
+                    //console.log(writer);
+                  writer.onerror = errorHandler;
+                  writer.onwriteend = function(e) {
+                    console.log('write complete');
+                  };
+
+                  writer.write(new Blob(['1234567890'], {type: 'text/plain'}));  
+                });
+            });*/
+
+            console.log(file);
+
+            var fs = null;
+            var FOLDERNAME  = 'bobo';
+
+            function initFS(fs) {
+                console.log("further");
+
+                fs.root.getDirectory(FOLDERNAME, {create: true}, function(dirEntry) {
+                    console.log(dirEntry);
+                    dirEntry.getFile("target.txt", {create: true, exclusive: false}, function(fileEntry) {
+                        console.log(fileEntry);
+                        fileEntry.createWriter(function(fileWriter) {
+                        //fileWriter.onerror = onError;
+                        fileWriter.onwriteend = function(e) {
+                            console.log('Write completed.');
+                        };
+                        
+                        fileWriter.write(new Blob(['1234567890'], {type: 'text/plain'}));
+                      });
+                    });
+                });
+
+                /*fs.root.getDirectory(...);*/
+            };
+
+
+
+            window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+
+            window.requestFileSystem(window.TEMPORARY, 1024 * 1024, initFS);
+            
 
             
-    	};
+        };
+
+
 
         return MyService;
     }

@@ -17,6 +17,20 @@ BatchAddress.controller('MainCtrl', function($scope, MyService) {
     $scope.addresses = [];
     MyService.fileCSVParse($scope.uploadFile, $scope);
   };
+
+
+
+  /*
+  readFile - External function
+    loads data into scope from csv file
+  */
+  $scope.writeFile = function () {
+    //$scope.addresses = [];
+    MyService.fileWriteCSV($scope.exportFile, $scope);
+  };
+
+
+  
 }); 
 
 
@@ -63,7 +77,29 @@ BatchAddress.directive('loadFile', function(){
         $scope.uploadFile = (e.srcElement || e.target).files[0]; // Live File added to socpe
         $scope.$apply(); // Apply to scope
 
-        $scope.readFile();
+        $scope.readFile(); // Call Export Function
+      });
+    }
+  };
+});
+
+
+
+// ----------------------------------------
+// Directive - ExportFile
+//
+// Exports scope to csv text file
+// ----------------------------------------
+BatchAddress.directive('writeFile', function(){
+  return{
+    // Link new function to element el and involve declared scope
+    link: function($scope, el){
+      el.bind('change', function(e){ // bind on change event
+        // Add new scope value "exportFile" and apply
+        $scope.exportFile = (e.srcElement || e.target).files[0]; // Live File added to socpe
+        $scope.$apply(); // Apply to scope
+
+        $scope.writeFile();  // Call Import Function
       });
     }
   };
@@ -98,6 +134,6 @@ BatchAddress.config(['$routeProvider',
         controller: 'SettingsCtrl'
       }).
       otherwise({
-        redirectTo: '/fileLoad'
+        redirectTo: '/fileExport'
       });
   }]);

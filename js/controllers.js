@@ -5,8 +5,6 @@
 var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
 
 BatchAddress.controller('MainCtrl', function($scope, $rootScope, MyService) {
-  // Init Address Scope
-  //$scope.addresses = [];
 
 
   /*
@@ -132,6 +130,6 @@ BatchAddress.config(['$routeProvider',
         controller: 'SettingsCtrl'
       }).
       otherwise({
-        redirectTo: '/fileExport'
+        redirectTo: '/fileLoad'
       });
   }]);

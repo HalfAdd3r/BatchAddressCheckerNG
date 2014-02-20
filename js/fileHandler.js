@@ -78,28 +78,7 @@ angular.module('filehandler', []).
             console.log("wakka");
             
         };
-
-
-
+        
         return MyService;
     }
 );
-
-
-/*
-function setFileConetnts () {
-    // Use Chrome Dialogbox control to load/create new wb file
-    chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
-        
-        // Async Call. Runs to wb file
-        writableFileEntry.createWriter(function(writer) {
-            //writer.onerror = errorHandler;
-            writer.onwriteend = function(e) {
-                console.log('write complete');
-            }; // end Async Call
-
-            // Actual Writeback control
-            writer.write(new Blob(['1234567890'], {type: 'text/plain'}));  
-        }); // end writeback
-    }); // end file select
-}; // end setFileContents*/

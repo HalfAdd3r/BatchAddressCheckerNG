@@ -4,9 +4,9 @@
 
 var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
 
-BatchAddress.controller('MainCtrl', function($scope, MyService) {
+BatchAddress.controller('MainCtrl', function($scope, $rootScope, MyService) {
   // Init Address Scope
-  $scope.addresses = [];
+  //$scope.addresses = [];
 
 
   /*
@@ -16,6 +16,7 @@ BatchAddress.controller('MainCtrl', function($scope, MyService) {
   $scope.readFile = function () {
     $scope.addresses = [];
     MyService.fileCSVParse($scope.uploadFile, $scope);
+    $rootScope.addresses = $scope.addresses;
   };
 
 
@@ -26,7 +27,7 @@ BatchAddress.controller('MainCtrl', function($scope, MyService) {
   */
   $scope.writeFile = function () {
     //$scope.addresses = [];
-    MyService.fileWriteCSV($scope.exportFile, $scope);
+    MyService.fileWriteCSV($rootScope);
   };
 
 
@@ -86,7 +87,7 @@ BatchAddress.directive('loadFile', function(){
 
 
 // ----------------------------------------
-// Directive - ExportFile
+// Directive - writeFile
 //
 // Exports scope to csv text file
 // ----------------------------------------
@@ -94,11 +95,8 @@ BatchAddress.directive('writeFile', function(){
   return{
     // Link new function to element el and involve declared scope
     link: function($scope, el){
-      el.bind('change', function(e){ // bind on change event
+      el.bind('click', function(e){ // bind on change event
         // Add new scope value "exportFile" and apply
-        $scope.exportFile = (e.srcElement || e.target).files[0]; // Live File added to socpe
-        $scope.$apply(); // Apply to scope
-
         $scope.writeFile();  // Call Import Function
       });
     }

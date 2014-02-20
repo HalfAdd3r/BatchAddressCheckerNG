@@ -56,55 +56,26 @@ angular.module('filehandler', []).
 
 
 
-        MyService.fileWriteCSV = function (file, scope){
+        MyService.fileWriteCSV = function (scope){
 
 
-/*            chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
+            chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
+                console.log(scope.addresses);
                 console.log("wakka");
                 writableFileEntry.createWriter(function(writer) {
-                    //console.log(writer);
-                  writer.onerror = errorHandler;
+                    console.log(writer);
+                  //writer.onerror = errorHandler;
                   writer.onwriteend = function(e) {
                     console.log('write complete');
                   };
 
-                  writer.write(new Blob(['1234567890'], {type: 'text/plain'}));  
+                  var val1 = scope.addresses[1].city;
+
+                  writer.write(new Blob([val1], {type: 'text/plain'}));  
                 });
-            });*/
+            });
 
-            console.log(file);
-
-            var fs = null;
-            var FOLDERNAME  = 'bobo';
-
-            function initFS(fs) {
-                console.log("further");
-
-                fs.root.getDirectory(FOLDERNAME, {create: true}, function(dirEntry) {
-                    console.log(dirEntry);
-                    dirEntry.getFile("target.txt", {create: true, exclusive: false}, function(fileEntry) {
-                        console.log(fileEntry);
-                        fileEntry.createWriter(function(fileWriter) {
-                        //fileWriter.onerror = onError;
-                        fileWriter.onwriteend = function(e) {
-                            console.log('Write completed.');
-                        };
-                        
-                        fileWriter.write(new Blob(['1234567890'], {type: 'text/plain'}));
-                      });
-                    });
-                });
-
-                /*fs.root.getDirectory(...);*/
-            };
-
-
-
-            window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-
-            window.requestFileSystem(window.TEMPORARY, 1024 * 1024, initFS);
-            
-
+            console.log("wakka");
             
         };
 

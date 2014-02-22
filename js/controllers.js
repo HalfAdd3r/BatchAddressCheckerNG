@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'filehandler']);
+var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'fileHandler', 'FedExAPI']);
 
-BatchAddress.controller('MainCtrl', function($scope, $rootScope, MyService) {
+BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fedex) {
 
 
   /*
@@ -13,20 +13,27 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, MyService) {
   */
   $scope.readFile = function () {
     $scope.addresses = [];
-    MyService.fileCSVParse($scope.uploadFile, $scope);
+    filehandler.fileCSVParse($scope.uploadFile, $scope);
     $rootScope.addresses = $scope.addresses;
   };
 
 
 
-  /*
-  readFile - External function
-    loads data into scope from csv file
-  */
+  
+  // readFile - External function
+  //  loads data into scope from csv file
   $scope.writeFile = function () {
     //$scope.addresses = [];
-    MyService.fileWriteCSV($rootScope);
+    filehandler.fileWriteCSV($rootScope);
   };
+
+  // runFedex - External function
+  //  loads data into scope from csv file
+  $scope.runFedex = function () {
+    //$scope.addresses = [];
+    fedex.hello($scope);
+  };
+
 
 
   
@@ -104,6 +111,23 @@ BatchAddress.directive('writeFile', function(){
 
 
 // ----------------------------------------
+// Directive - runFedex
+//
+// Exports scope to csv text file
+// ----------------------------------------
+BatchAddress.directive('runFedex', function(){
+  return{
+    // Link new function to element el and involve declared scope
+    link: function($scope, el){
+      el.bind('click', function(e){ // bind on change event
+        // Add new scope value "exportFile" and apply
+        $scope.runFedex();  // Call Import Function
+      });
+    }
+  };
+});
+
+// ----------------------------------------
 // Route - Main provider for Project
 // ----------------------------------------
 BatchAddress.config(['$routeProvider',
@@ -130,6 +154,6 @@ BatchAddress.config(['$routeProvider',
         controller: 'SettingsCtrl'
       }).
       otherwise({
-        redirectTo: '/fileLoad'
+        redirectTo: '/runFedEx'
       });
   }]);

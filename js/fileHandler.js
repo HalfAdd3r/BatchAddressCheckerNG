@@ -1,12 +1,14 @@
-// ----------------------------------------
-// filehandler
-//
-// Values stored in html5 localstorage using Chrome api
-// ----------------------------------------
+/*
+----------------------------------------
+fileHandler - Angular JS Factory
 
-angular.module('filehandler', []).
-    factory('MyService', function($http) {
-        var MyService = {};
+Manages Chrome based file read and write
+----------------------------------------
+*/
+
+angular.module('fileHandler', []).
+    factory('filehandler', function($http) {
+        var filehandler = {};
 
         function parseCSVtoJSON (rawText, scope) {
             var mainDataObj = [];
@@ -44,7 +46,7 @@ angular.module('filehandler', []).
 
 
 
-    	MyService.fileCSVParse = function (file, scope){
+    	filehandler.fileCSVParse = function (file, scope){
     		var reader = new FileReader();
             reader.onload = function (e){
                 parseCSVtoJSON(e.target.result, scope);
@@ -56,7 +58,7 @@ angular.module('filehandler', []).
 
 
 
-        MyService.fileWriteCSV = function (scope){
+        filehandler.fileWriteCSV = function (scope){
 
 
             chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
@@ -79,6 +81,6 @@ angular.module('filehandler', []).
             
         };
         
-        return MyService;
+        return filehandler;
     }
 );

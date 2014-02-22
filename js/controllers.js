@@ -31,7 +31,8 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
   //  loads data into scope from csv file
   $scope.runFedex = function () {
     //$scope.addresses = [];
-    fedex.hello($scope);
+    //console.log($rootScope.fdxCredentials);
+    fedex.checkAddress($rootScope, $rootScope.fdxCredentials);
   };
 
 
@@ -48,7 +49,7 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
 //
 // Values stored in html5 localstorage using Chrome api
 // ----------------------------------------
-BatchAddress.controller('SettingsCtrl', function($scope) {
+BatchAddress.controller('SettingsCtrl', function($scope, $rootScope) {
   // Declare
   var chromeStore = chrome.storage.local;
 
@@ -59,6 +60,7 @@ BatchAddress.controller('SettingsCtrl', function($scope) {
   chromeStore.get('BatchAddress', function(value){
     $scope.$apply(function() {
       $scope.fdxCredentials = value.BatchAddress;
+      $rootScope.fdxCredentials = $scope.fdxCredentials;
     });
   });
 

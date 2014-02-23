@@ -33,7 +33,7 @@ angular.module('fileHandler', []).
                     resi:innerLines[8]
                 }];
 
-                console.log(tempAddress);
+                //console.log(tempAddress); // Debug Line
 
                 newAddress = {
                     index:index,
@@ -41,7 +41,7 @@ angular.module('fileHandler', []).
                     checkvalues:tempAddress
                 };
 
-                console.log(newAddress);
+                //console.log(newAddress); // Debug Line
 
                 scope.addresses.push(newAddress);
 
@@ -75,6 +75,8 @@ angular.module('fileHandler', []).
                   //writer.onerror = errorHandler;
                   writer.onwriteend = function(e) {
                     console.log('write complete');
+                    scope.wstatus = "Export Complete";
+                    scope.$apply();
                   };
 
                   var val1 = scope.addresses[1].city;

@@ -27,12 +27,17 @@ angular.module('FedExAPI', []).
       // Request XML string
       var sr = BuildXML(scope, keyvalues);
       console.log(sr);
+      scope.fedexin = sr;
+      scope.$apply();
 
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4) {
           if (xmlhttp.status == 200) {
             //$("#test").text(xmlhttp.readyState + " " + xmlhttp.status + " " + xmlhttp.responseText);
             console.log(xmlhttp.readyState + "\n" + xmlhttp.status + "\n" + xmlhttp.responseText);
+            scope.fedexout = xmlhttp.responseText;
+            scope.$apply();
+            
           }
         }
       }
@@ -68,10 +73,8 @@ angular.module('FedExAPI', []).
       $xml.find('AccountNumber').text(keyvalues.account);
       $xml.find('MeterNumber').text(keyvalues.meter);
 
-
-
       return new XMLSerializer().serializeToString(xmlDoc);
-    }
+    };
 
 
 

@@ -22,6 +22,7 @@ angular.module('fileHandler', []).
 
                 // LATER write fancy loop to create dynamically named CSV headers
                 tempAddress = [{
+                    index:index,
                     name:innerLines[0],
                     company:innerLines[1],
                     address1:innerLines[2],
@@ -36,7 +37,6 @@ angular.module('fileHandler', []).
                 //console.log(tempAddress); // Debug Line
 
                 newAddress = {
-                    index:index,
                     addvalues:tempAddress,
                     checkvalues:tempAddress
                 };
@@ -68,8 +68,6 @@ angular.module('fileHandler', []).
 
 
             chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(writableFileEntry) {
-                console.log(scope.addresses);
-                console.log("wakka");
                 writableFileEntry.createWriter(function(writer) {
                     console.log(writer);
                   //writer.onerror = errorHandler;

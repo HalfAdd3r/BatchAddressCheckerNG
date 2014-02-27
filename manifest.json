@@ -14,7 +14,7 @@
 	},
 	"permissions": [
     	"http://www.google.com/",
-    	"https://wsbeta.fedex.com:443/web-services/*",
+    	"https://ws.fedex.com:443/web-services/*",
     	"https://code.jquery.com/*",
     	"storage",
     	{"fileSystem": ["write", "directory"]} 

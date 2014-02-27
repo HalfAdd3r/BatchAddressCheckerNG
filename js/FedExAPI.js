@@ -59,14 +59,13 @@ angular.module('FedExAPI', []).
     Function: Uses input to process SOAP input
     ------------------------------------------------------------------------------------- */
     function BuildXML (scope, keyvalues) {
-
-      var xml = '<soapenv:Envelope xmlns="http://fedex.com/ws/addressvalidation/v2" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <soapenv:Body> <AddressValidationRequest> <WebAuthenticationDetail> <UserCredential> <Key></Key> <Password></Password> </UserCredential> </WebAuthenticationDetail> <ClientDetail> <AccountNumber></AccountNumber> <MeterNumber></MeterNumber> </ClientDetail> <TransactionDetail> <CustomerTransactionId>1</CustomerTransactionId> </TransactionDetail> <Version> <ServiceId>aval</ServiceId> <Major>2</Major> <Intermediate>0</Intermediate> <Minor>0</Minor> </Version> <RequestTimestamp></RequestTimestamp> <Options> <MaximumNumberOfMatches>1</MaximumNumberOfMatches> <StreetAccuracy>LOOSE</StreetAccuracy> <DirectionalAccuracy>LOOSE</DirectionalAccuracy> <CompanyNameAccuracy>LOOSE</CompanyNameAccuracy> <ConvertToUpperCase>true</ConvertToUpperCase> <RecognizeAlternateCityNames>true</RecognizeAlternateCityNames> <ReturnParsedElements>true</ReturnParsedElements> </Options> <AddressesToValidate> </AddressesToValidate> </AddressValidationRequest> </soapenv:Body> </soapenv:Envelope>',
-      xmlDoc = $.parseXML(xml),
-      $xml=$(xmlDoc);
+      // Framework XML
+      var xml = '<soapenv:Envelope xmlns="http://fedex.com/ws/addressvalidation/v2" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <soapenv:Body> <AddressValidationRequest> <WebAuthenticationDetail> <UserCredential> <Key></Key> <Password></Password> </UserCredential> </WebAuthenticationDetail> <ClientDetail> <AccountNumber></AccountNumber> <MeterNumber></MeterNumber> </ClientDetail> <TransactionDetail> <CustomerTransactionId>1</CustomerTransactionId> </TransactionDetail> <Version> <ServiceId>aval</ServiceId> <Major>2</Major> <Intermediate>0</Intermediate> <Minor>0</Minor> </Version> <RequestTimestamp></RequestTimestamp> <Options> <MaximumNumberOfMatches>1</MaximumNumberOfMatches> <StreetAccuracy>LOOSE</StreetAccuracy> <DirectionalAccuracy>LOOSE</DirectionalAccuracy> <CompanyNameAccuracy>LOOSE</CompanyNameAccuracy> <ConvertToUpperCase>true</ConvertToUpperCase> <RecognizeAlternateCityNames>true</RecognizeAlternateCityNames> <ReturnParsedElements>true</ReturnParsedElements> </Options></AddressValidationRequest> </soapenv:Body> </soapenv:Envelope>';
       var dataset = scope.addresses;  // Pull Address Values
 
+      xmlDoc = $.parseXML(xml),
+      $xml=$(xmlDoc);
       
-
       $xml.find('Key').text(keyvalues.key);
       $xml.find('Password').text(keyvalues.password);
       $xml.find('AccountNumber').text(keyvalues.account);
@@ -76,21 +75,16 @@ angular.module('FedExAPI', []).
       dtCurTime = dtCurTime.slice(0,dtCurTime.lastIndexOf(".")); // Remove trailing characters
       $xml.find('RequestTimestamp').text(dtCurTime);
 
-      // XML BUilding Tests
-
+      
       dataset.forEach(function (currAddress){
-        console.log(currAddress.addvalues[0].name);
+        actAddress = currAddress.addvalues[0];
+        if (actAddress.index==1) {
+          $xml.find('Options').after("<AddressesToValidate><AddressId>" + actAddress.index + "</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address></AddressesToValidate>");
+        } else{
+          console.log("working val here");
+          //$xml.find('AddressesToValidate').after("<AddressesToValidate><AddressId>Second</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address></AddressesToValidate>")
+        };
       });
-      //$("<AddressId>First</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address>").appendTo($xml.find('AddressesToValidate'));
-
-      $xml.find('AddressesToValidate').append("<AddressId>First</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address>");
-      $xml.find('AddressesToValidate').after("<AddressesToValidate><AddressId>Second</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address></AddressesToValidate>");
-      //$xml.find('AddressesToValidate').append("<Address><StreetLines>1 Main Street</StreetLines> <City>Beverly Hills</City> <StateOrProvinceCode>CA</StateOrProvinceCode> <PostalCode>90210</PostalCode> <CountryCode>US</CountryCode> </Address>");
-      // 
-      //console.log(dataset[0].addvalues);
-
-
-      // XML building Tests
 
       return new XMLSerializer().serializeToString(xmlDoc);
     };

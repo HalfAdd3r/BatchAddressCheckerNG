@@ -48,12 +48,11 @@ angular.module('fileHandler', []).
                 index++;
             });
             scope.$apply();
-        }; // end parseCSVtoJSON
+        } // end parseCSVtoJSON
 
 
-
-    	filehandler.fileCSVParse = function (file, scope){
-    		var reader = new FileReader();
+        filehandler.fileCSVParse = function (file, scope){
+            var reader = new FileReader();
             reader.onload = function (e){
                 parseCSVtoJSON(e.target.result, scope);
                 //console.log(e.target.result);

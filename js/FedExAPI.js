@@ -11,7 +11,7 @@ angular.module('FedExAPI', []).
   factory('fedex', function($http, $q) {
     var fedex = {};
     //var GATEWAY = 'https://wsbeta.fedex.com:443/web-services/' // Main SOAP Gateway
-    var GATEWAY = 'https://ws.fedex.com:443/web-services' // Main SOAP Gateway
+    var GATEWAY = 'https://ws.fedex.com:443/web-services'; // Main SOAP Gateway
 
     /*-------------------------------------------------------------------------------------
     Function: ProcessSOAP
@@ -44,11 +44,11 @@ angular.module('FedExAPI', []).
             
           }
         }
-      }
+      };
       
       // Send the POST request
       xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-      //xmlhttp.send(sr); //- TK Send Disabled while building string
+      xmlhttp.send(sr); //- TK Send Disabled while building string
     }
 
 
@@ -65,40 +65,44 @@ angular.module('FedExAPI', []).
 
       xmlDoc = $.parseXML(xml),
       $xml=$(xmlDoc);
-      
+
+
+      // Insert API Auth. Values
       $xml.find('Key').text(keyvalues.key);
       $xml.find('Password').text(keyvalues.password);
       $xml.find('AccountNumber').text(keyvalues.account);
       $xml.find('MeterNumber').text(keyvalues.meter);
 
+      // Insert Date Strings 
       var dtCurTime = new Date().toISOString(); // Get Date
       dtCurTime = dtCurTime.slice(0,dtCurTime.lastIndexOf(".")); // Remove trailing characters
       $xml.find('RequestTimestamp').text(dtCurTime);
 
-      
+      // Insert Address Values
       dataset.forEach(function (currAddress){
         actAddress = currAddress.addvalues[0];
+        strVales = "<AddressesToValidate><AddressId>" + actAddress.index + "</AddressId>" +
+          "<Address><StreetLines>" + actAddress.address1 + "</StreetLines>" +
+          "<City>" + actAddress.city + "</City>" +
+          "<StateOrProvinceCode>" + actAddress.state + "</StateOrProvinceCode>" +
+          "<PostalCode>" + actAddress.zip + "</PostalCode>" +
+          "<CountryCode>" + actAddress.country + "</CountryCode></Address></AddressesToValidate>";
+
+        // Insert elements - use diffrent selectros to keep in order
         if (actAddress.index==1) {
-          $xml.find('Options').after("<AddressesToValidate><AddressId>" + actAddress.index + "</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address></AddressesToValidate>");
+          $xml.find('Options').after(strVales);
         } else{
-          console.log("working val here");
-          //$xml.find('AddressesToValidate').after("<AddressesToValidate><AddressId>Second</AddressId><Address><StreetLines>1 Main Street</StreetLines> <City>Dayton</City> <StateOrProvinceCode>ME</StateOrProvinceCode> <PostalCode>04005</PostalCode> <CountryCode>US</CountryCode> </Address></AddressesToValidate>")
-        };
+          $xml.find('AddressesToValidate:last').after(strVales);
+        }
       });
 
       return new XMLSerializer().serializeToString(xmlDoc);
-    };
-
+    }
 
 
     fedex.checkAddress = function (scope, keyvalues) {
       ProcessSOAP(scope,keyvalues);
     }; // End checkAddress
-
-
-
-
-
 
 
     return fedex;

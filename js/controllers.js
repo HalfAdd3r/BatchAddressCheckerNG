@@ -30,6 +30,7 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
   // runFedex - External function
   //  loads data into scope from csv file
   $scope.runFedex = function () {
+    $rootScope.fedexout = [];
     //$scope.addresses = [];
     //console.log($rootScope.fdxCredentials);
     fedex.checkAddress($rootScope, $rootScope.fdxCredentials);

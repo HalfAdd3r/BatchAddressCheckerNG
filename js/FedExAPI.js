@@ -13,6 +13,48 @@ angular.module('FedExAPI', []).
     //var GATEWAY = 'https://wsbeta.fedex.com:443/web-services/' // Main SOAP Gateway
     var GATEWAY = 'https://ws.fedex.com:443/web-services'; // Main SOAP Gateway
 
+
+/*    function address (index,address1,city,state,zip,country) {
+      this.index = index;
+      this.address1 = address1;
+      this.city = city;
+      this.state = state;
+      this.zip = zip;
+      this.country = country;
+    }*/
+
+
+
+    function loadScope (scope,xmlinput) {
+      
+
+      xmlDoc = $.parseXML(xmlinput);
+      var $xml=$(xmlDoc);
+
+      console.log("in");
+
+      $xml.find( "AddressResults" ).each(function( index ) {
+        var newIndex = $(this).find("AddressId");
+        var newValues = $(this).find("Address");
+        newAddress = {
+          index:newIndex.text(),   
+          address1:newValues.find("StreetLines").text(),
+          city:newValues.find("City").text(),
+          state:newValues.find("StateOrProvinceCode").text(),
+          zip:newValues.find("PostalCode").text(),
+          country:newValues.find("CountryCode").text()
+        };
+
+        scope.fedexout.push(newAddress);
+        scope.$apply();
+
+        
+      });
+
+      
+    }
+
+
     /*-------------------------------------------------------------------------------------
     Function: ProcessSOAP
     Arguments: ValuesIn - address list in format yet to be determined
@@ -20,9 +62,6 @@ angular.module('FedExAPI', []).
     Function: Takes in values from input and manages actual SOAP transaction.  Helper
               functions handle building and parsing SOAP Values
     ------------------------------------------------------------------------------------- */
-
-
-
     function ProcessSOAP (scope, keyvalues) {
       // Init Values and open Gateway
       var xmlhttp = new XMLHttpRequest();
@@ -30,18 +69,16 @@ angular.module('FedExAPI', []).
 
       // Request XML string
       var sr = BuildXML(scope, keyvalues);
-      console.log(sr); // Debug Line
+      //console.log(sr); // Debug Line
       scope.fedexin = sr;
       scope.$apply();
 
       xmlhttp.onreadystatechange = function () {
-        console.log(xmlhttp.responseText); // Debug line
+        //console.log(xmlhttp.responseText); // Debug line
         if (xmlhttp.readyState == 4) {
           if (xmlhttp.status == 200) {
-            //$("#test").text(xmlhttp.readyState + " " + xmlhttp.status + " " + xmlhttp.responseText);
-            scope.fedexout = xmlhttp.responseText;
-            scope.$apply();
-            
+            //console.log(xmlhttp.readyState + "\n" + xmlhttp.status + "\n" + xmlhttp.responseText);
+            loadScope(scope,xmlhttp.responseText);
           }
         }
       };

@@ -19,7 +19,6 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
 
 
 
-  
   // readFile - External function
   //  loads data into scope from csv file
   $scope.writeFile = function () {
@@ -35,15 +34,7 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
     //console.log($rootScope.fdxCredentials);
     fedex.checkAddress($rootScope, $rootScope.fdxCredentials);
   };
-
-  
-
-
-
-  
 }); 
-
-
 
 
 
@@ -72,6 +63,7 @@ BatchAddress.controller('SettingsCtrl', function($scope, $rootScope) {
     chromeStore.set({'BatchAddress': $scope.fdxCredentials});
   };
 });
+
 
 
 // ----------------------------------------
@@ -131,6 +123,8 @@ BatchAddress.directive('runFedex', function(){
     }
   };
 });
+
+
 
 // ----------------------------------------
 // Route - Main provider for Project

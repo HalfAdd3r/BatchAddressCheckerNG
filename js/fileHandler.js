@@ -38,7 +38,8 @@ angular.module('fileHandler', []).
 
                 newAddress = {
                     addvalues:tempAddress,
-                    checkvalues:tempAddress
+                    checkvalues:tempAddress,
+                    selection:0
                 };
 
                 //console.log(newAddress); // Debug Line

@@ -35,23 +35,31 @@ angular.module('FedExAPI', []).
 
       $xml.find( "AddressResults" ).each(function( index ) {
         var newIndex = $(this).find("AddressId");
+        var newResi = $(this).find("ResidentialStatus");
+
+        if (newResi.text() === "RESIDENTIAL"){
+          newResi = "R";
+        } else{
+          newResi = "C";
+        }
+        
         var newValues = $(this).find("Address");
-        newAddress = {
+        newAddress = [{
           index:newIndex.text(),   
           address1:newValues.find("StreetLines").text(),
           city:newValues.find("City").text(),
           state:newValues.find("StateOrProvinceCode").text(),
           zip:newValues.find("PostalCode").text(),
-          country:newValues.find("CountryCode").text()
-        };
+          country:newValues.find("CountryCode").text(),
+          resi:newResi
+        }];
 
-        scope.fedexout.push(newAddress);
+        scope.addresses[index].checkvalues=newAddress; // Load new string value into main
+
+        scope.fedexout.push(newAddress); // also load into local object
         scope.$apply();
-
         
       });
-
-      
     }
 
 

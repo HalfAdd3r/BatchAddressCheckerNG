@@ -2,6 +2,7 @@
 	<button type="submit" run-fedex>Import Data from FedEx</button>
 	<hr/>
 
+	
 	<table border="1">
 		<tr>
 			<th>Count</th>
@@ -10,9 +11,9 @@
 		
 		<tr ng-repeat="address in fedexout">
 			<div >
-				<td>{{address.index}}</td>
-				<td>{{address.address1}}<br/>
-					{{address.city}}, {{address.state}} {{address.zip}} 
+				<td>{{address[0].index}}</td>
+				<td>{{address[0].address1}}<br/>
+					{{address[0].city}}, {{address[0].state}} {{address[0].zip}} 
 				</td>
 			</div>	
 		</tr>

@@ -13,50 +13,37 @@ angular.module('FedExAPI', []).
     //var GATEWAY = 'https://wsbeta.fedex.com:443/web-services/' // Main SOAP Gateway
     var GATEWAY = 'https://ws.fedex.com:443/web-services'; // Main SOAP Gateway
 
-
-/*    function address (index,address1,city,state,zip,country) {
-      this.index = index;
-      this.address1 = address1;
-      this.city = city;
-      this.state = state;
-      this.zip = zip;
-      this.country = country;
-    }*/
-
-
-
     function loadScope (scope,xmlinput) {
       
 
       xmlDoc = $.parseXML(xmlinput);
       var $xml=$(xmlDoc);
 
-      console.log("in");
-
       $xml.find( "AddressResults" ).each(function( index ) {
-        var newIndex = $(this).find("AddressId");
-        var newResi = $(this).find("ResidentialStatus");
+        var newIndex = $(this).find("AddressId"); // Index value
+        var newResi = $(this).find("ResidentialStatus"); // Residential flag
+        var newValues = $(this).find("Address"); // overall address nodes
+        var curInputAddress = scope.addresses[index]; // Master value indexed location
 
-        if (newResi.text() === "RESIDENTIAL"){
-          newResi = "R";
-        } else{
-          newResi = "C";
-        }
+        // Value = Argument ? True : False
+        newResi = (newResi.text() === "RESIDENTIAL") ? newResi = "R" : newResi = "C";
         
-        var newValues = $(this).find("Address");
-        newAddress = [{
-          index:newIndex.text(),   
-          address1:newValues.find("StreetLines").text(),
-          city:newValues.find("City").text(),
-          state:newValues.find("StateOrProvinceCode").text(),
-          zip:newValues.find("PostalCode").text(),
-          country:newValues.find("CountryCode").text(),
-          resi:newResi
-        }];
+        var newAddress = [new scope.stdAddress(
+          newIndex.text(),   
+          curInputAddress.addvalues[0].name,
+          curInputAddress.addvalues[0].company,
+          newValues.find("StreetLines").text(),
+          "",
+          newValues.find("City").text(),
+          newValues.find("StateOrProvinceCode").text(),
+          newValues.find("PostalCode").text(),
+          newValues.find("CountryCode").text(),
+          newResi
+        )];
 
-        scope.addresses[index].checkvalues=newAddress; // Load new string value into main
+        //scope.addresses[index].checkvalues=newAddress; // Load new string value into main
+        curInputAddress.checkvalues=newAddress; // Load new string value into main
 
-        scope.fedexout.push(newAddress); // also load into local object
         scope.$apply();
         
       });

@@ -21,6 +21,8 @@ angular.module('fileHandler', []).
                 var innerLines = this.split(',');
 
                 // LATER write fancy loop to create dynamically named CSV headers
+
+                // MOVE TO NEW scope.stdAddress format!
                 tempAddress = [{
                     index:index,
                     name:innerLines[0],
@@ -38,7 +40,7 @@ angular.module('fileHandler', []).
 
                 newAddress = {
                     addvalues:tempAddress,
-                    checkvalues:tempAddress,
+                    checkvalues:"",
                     selection:0
                 };
 
@@ -77,9 +79,35 @@ angular.module('fileHandler', []).
                     scope.$apply();
                   };
 
-                  var val1 = scope.addresses[1].city;
+                  var strOutput = "name,company,address1,address2,city,state,zip,country,resi\n";
 
-                  writer.write(new Blob([val1], {type: 'text/plain'}));  
+                  scope.addresses.forEach(function (curAddress){
+                    var actAddress;
+
+                    if (curAddress.selection ===0){
+                        actAddress = curAddress.addvalues[0];
+                    } else {
+                        actAddress = curAddress.checkvalues[0];
+                    }
+
+                    //console.log(curAddress.checkvalues[0].city);
+                    strOutput = strOutput + 
+                        actAddress.name + "," +
+                        actAddress.company + "," +
+                        actAddress.address1 + "," +
+                        actAddress.address2 + "," +
+                        actAddress.city + "," +
+                        actAddress.state + "," +
+                        actAddress.zip + "," +
+                        actAddress.country + "," +
+                        actAddress.resi + "\n";
+                  });
+
+                  console.log(strOutput);
+
+                  var val1 = scope.addresses[1].checkvalues[0].city;
+
+                  writer.write(new Blob([strOutput], {type: 'text/plain'}));  
                 });
             });
 

@@ -7,6 +7,20 @@ var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'fileHandler', 'Fe
 BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fedex) {
 
 
+  $scope.stdAddress = function (index, name, company,address1, address2,city,state,zip,country,resi) {
+    this.index = index;
+    this.name = name;
+    this.company = company;
+    this.address1 = address1;
+    this.address2 = address2;
+    this.city = city;
+    this.state = state;
+    this.zip = zip;
+    this.country = country;
+    this.resi = resi;
+  };
+
+
   /*
   readFile - External function
     loads data into scope from csv file
@@ -29,12 +43,7 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
   // runFedex - External function
   //  loads data into scope from csv file
   $scope.runFedex = function () {
-    $scope.fedexout = [];
-    //$scope.addresses = [];
-    //console.log($rootScope.fdxCredentials);
     fedex.checkAddress($scope, $rootScope.fdxCredentials);
-    $rootScope.fedexout = $scope.fedexout;
-    //masterScope();
   };
 }); 
 
@@ -155,6 +164,6 @@ BatchAddress.config(['$routeProvider',
         controller: 'SettingsCtrl'
       }).
       otherwise({
-        redirectTo: '/runFedEx'
+        redirectTo: '/settings'
       });
   }]);

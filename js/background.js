@@ -1,4 +1,7 @@
-// Default Chrome App Launcher
+// ----------------------------------------
+// background - Default Chrome App Launcher
+// ----------------------------------------
+
 chrome.app.runtime.onLaunched.addListener(function(){
 	chrome.app.window.create('window.html',{
 		'bounds':{
@@ -7,6 +10,3 @@ chrome.app.runtime.onLaunched.addListener(function(){
 		}
 	});
 });
-
-
-

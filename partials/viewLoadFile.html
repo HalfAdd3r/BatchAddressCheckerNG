@@ -1,26 +1,24 @@
 <div class="span10">
 	<input type="file" load-file></button>
-	<hr/>
+<hr/>
 
-	<table border="1">
-		<tr>
-			<th>Name</th>
-			<th>Company</th>
-			<th>Address 1</th>
-			<th>Address 2</th>
-			<th>City</th>
-		</tr>
-		
-		<tr ng-repeat="address in addresses">
-			<td>{{address.addvalues[0].name}}</td>
-			<td>{{address.addvalues[0].company}}</td>
-			<td>{{address.addvalues[0].address1}}</td>
-			<td>{{address.addvalues[0].address2}}</td>
-			<td>{{address.addvalues[0].city}}</td>
-		</tr>
-		
-	</table>
+<table border="1">
+	<tr>
+		<th>Name</th>
+		<th>Company</th>
+		<th>Address 1</th>
+		<th>Address 2</th>
+		<th>City</th>
+	</tr>
 
+	<tr ng-repeat="address in addresses">
+		<td>{{address.addvalues[0].name}}</td>
+		<td>{{address.addvalues[0].company}}</td>
+		<td>{{address.addvalues[0].address1}}</td>
+		<td>{{address.addvalues[0].address2}}</td>
+		<td>{{address.addvalues[0].city}}</td>
+	</tr>
 
+</table>
 
 </div>

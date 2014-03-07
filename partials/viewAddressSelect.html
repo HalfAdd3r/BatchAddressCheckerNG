@@ -1,5 +1,5 @@
 <div class="span10">
-	
+
 	<table border="1" width=100%>
 		<tr>
 			<th>Count</th>
@@ -8,27 +8,35 @@
 			<th>Suggested</th>
 		</tr>
 
-		
 		<tr ng-repeat="address in addresses">
 			<div>
-				<td>{{address.addvalues[0].index}} - {{address.addvalues[0].name}} </td>
-
+				<td>
+					{{address.addvalues[0].index}} - {{address.addvalues[0].name}}
+				</td>
 
 				<!-- Origional Values -->
-				<td> {{address.addvalues[0].address1}} <br/>
-				{{address.addvalues[0].city}}, {{address.addvalues[0].state}} {{address.addvalues[0].zip}}</td>
+				<td>
+					{{address.addvalues[0].address1}}
+					<br/>
+					{{address.addvalues[0].city}}, {{address.addvalues[0].state}} {{address.addvalues[0].zip}}
+				</td>
 
 				<!-- Data Selection -->
 				<td>
-					<label> <input type="radio" ng-model="address.selection" value=0 >Orig</label>
-					<label> <input type="radio" ng-model="address.selection" value=1 >Suggested</label>
+					<label>
+						<input type="radio" ng-model="address.selection" value=0 >Orig</label>
+					<label>
+						<input type="radio" ng-model="address.selection" value=1 >Suggested</label>
 				</td>
 
 				<!-- FedEx Provided Values -->
-				<td> {{address.checkvalues[0].address1}} <br/>
-				{{address.checkvalues[0].city}}, {{address.checkvalues[0].state}} {{address.checkvalues[0].zip}} - {{address.checkvalues[0].resi}}</td>
+				<td>
+					{{address.checkvalues[0].address1}}
+					<br/>
+					{{address.checkvalues[0].city}}, {{address.checkvalues[0].state}} {{address.checkvalues[0].zip}} - {{address.checkvalues[0].resi}}
+				</td>
 			</div>
 		</tr>
-		
+
 	</table>
-</div>	
+</div>

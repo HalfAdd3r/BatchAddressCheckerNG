@@ -1,21 +1,25 @@
-/*
-----------------------------------------
-FedExAPI - Angular JS Factory
+// ----------------------------------------
+// FedExAPI - Angular JS Factory
+//
+// Eventual full AngularJS interface for FedEx Web Services
+// See www.fedex.com/developer
+// ----------------------------------------
 
-Eventual full AngularJS interface for FedEx Web Services
-See www.fedex.com/developer
-----------------------------------------
-*/
 
 angular.module('FedExAPI', []).
-  factory('fedex', function($http, $q) {
-    var fedex = {};
-    //var GATEWAY = 'https://wsbeta.fedex.com:443/web-services/' // Main SOAP Gateway
+  factory('fedex', function() {
+    var fedex = {};  // Init FedEx Object
     var GATEWAY = 'https://ws.fedex.com:443/web-services'; // Main SOAP Gateway
 
-    function loadScope (scope,xmlinput) {
-      
 
+
+    // -------------------------------------------------------------------------------------
+    // Function: loadScope
+    // Arguments: scope - usable/loadable scope; xmlinput - returned SOAP query values
+    //
+    // Function: Moves values from SOAP response to scope
+    // ------------------------------------------------------------------------------------- 
+    function loadScope (scope,xmlinput) {
       xmlDoc = $.parseXML(xmlinput);
       var $xml=$(xmlDoc);
 
@@ -41,22 +45,21 @@ angular.module('FedExAPI', []).
           newResi
         )];
 
-        //scope.addresses[index].checkvalues=newAddress; // Load new string value into main
         curInputAddress.checkvalues=newAddress; // Load new string value into main
-
         scope.$apply();
         
       });
     }
 
 
-    /*-------------------------------------------------------------------------------------
-    Function: ProcessSOAP
-    Arguments: ValuesIn - address list in format yet to be determined
 
-    Function: Takes in values from input and manages actual SOAP transaction.  Helper
-              functions handle building and parsing SOAP Values
-    ------------------------------------------------------------------------------------- */
+    // -------------------------------------------------------------------------------------
+    // Function: ProcessSOAP
+    // Arguments: scope - loadable scope; keyvalues - object with FedEx API keys
+    //
+    // Function: Takes in values from input and manages actual SOAP transaction.  Helper
+    //           functions handle building and parsing SOAP Values
+    // ------------------------------------------------------------------------------------- 
     function ProcessSOAP (scope, keyvalues) {
       // Init Values and open Gateway
       var xmlhttp = new XMLHttpRequest();
@@ -64,32 +67,29 @@ angular.module('FedExAPI', []).
 
       // Request XML string
       var sr = BuildXML(scope, keyvalues);
-      //console.log(sr); // Debug Line
       scope.fedexin = sr;
       scope.$apply();
 
       xmlhttp.onreadystatechange = function () {
-        //console.log(xmlhttp.responseText); // Debug line
         if (xmlhttp.readyState == 4) {
           if (xmlhttp.status == 200) {
-            //console.log(xmlhttp.readyState + "\n" + xmlhttp.status + "\n" + xmlhttp.responseText);
             loadScope(scope,xmlhttp.responseText);
           }
         }
       };
       
-      // Send the POST request
-      xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+      xmlhttp.setRequestHeader('Content-Type', 'text/xml'); // Send the POST request
       xmlhttp.send(sr); //- TK Send Disabled while building string
     }
 
 
-    /*-------------------------------------------------------------------------------------
-    Function: BuildXML
-    Arguments: TK - TBD
 
-    Function: Uses input to process SOAP input
-    ------------------------------------------------------------------------------------- */
+    // -------------------------------------------------------------------------------------
+    // Function: BuildXML
+    // Arguments: scope - loadable scope; keyvalues - object with FedEx API keys
+    //
+    // Function: Helper function that builds xml transaction from scope input
+    // ------------------------------------------------------------------------------------- 
     function BuildXML (scope, keyvalues) {
       // Framework XML
       var xml = '<soapenv:Envelope xmlns="http://fedex.com/ws/addressvalidation/v2" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <soapenv:Body> <AddressValidationRequest> <WebAuthenticationDetail> <UserCredential> <Key></Key> <Password></Password> </UserCredential> </WebAuthenticationDetail> <ClientDetail> <AccountNumber></AccountNumber> <MeterNumber></MeterNumber> </ClientDetail> <TransactionDetail> <CustomerTransactionId>1</CustomerTransactionId> </TransactionDetail> <Version> <ServiceId>aval</ServiceId> <Major>2</Major> <Intermediate>0</Intermediate> <Minor>0</Minor> </Version> <RequestTimestamp></RequestTimestamp> <Options> <MaximumNumberOfMatches>1</MaximumNumberOfMatches> <StreetAccuracy>LOOSE</StreetAccuracy> <DirectionalAccuracy>LOOSE</DirectionalAccuracy> <CompanyNameAccuracy>LOOSE</CompanyNameAccuracy> <ConvertToUpperCase>true</ConvertToUpperCase> <RecognizeAlternateCityNames>true</RecognizeAlternateCityNames> <ReturnParsedElements>true</ReturnParsedElements> </Options></AddressValidationRequest> </soapenv:Body> </soapenv:Envelope>';
@@ -97,7 +97,6 @@ angular.module('FedExAPI', []).
 
       xmlDoc = $.parseXML(xml);
       var $xml=$(xmlDoc);
-
 
       // Insert API Auth. Values
       $xml.find('Key').text(keyvalues.key);
@@ -131,12 +130,20 @@ angular.module('FedExAPI', []).
       return new XMLSerializer().serializeToString(xmlDoc);
     }
 
+    
 
+    // -------------------------------------------------------------------------------------
+    // Function: fedex.checkAddress
+    // Arguments: scope - loadable scope; keyvalues - object with FedEx API keys
+    //
+    // Function: Public call-able function to use API and load values into scope
+    // -------------------------------------------------------------------------------------     
     fedex.checkAddress = function (scope, keyvalues) {
       ProcessSOAP(scope,keyvalues);
     }; // End checkAddress
 
 
+    // Return new factory
     return fedex;
   } // End Factory
 ); // End module

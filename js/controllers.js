@@ -1,12 +1,18 @@
-'use strict';
+// ----------------------------------------
+// fileHandler - Angular JS Factory
+//
+// Manages Google Chrome based file read and write
+// ----------------------------------------
 
-/* Controllers */
-
+// Init Angular Object
 var BatchAddress = angular.module('BatchAddress', ['ngRoute', 'fileHandler', 'FedExAPI']);
 
+// ----------------------------------------
+// Controller - Primary Scope Controller
+// ----------------------------------------
 BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fedex) {
 
-
+  // Standardized Address object stdAddress
   $scope.stdAddress = function (index, name, company,address1, address2,city,state,zip,country,resi) {
     this.index = index;
     this.name = name;
@@ -21,10 +27,9 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
   };
 
 
-  /*
-  readFile - External function
-    loads data into scope from csv file
-  */
+  
+  // readFile - External function
+  // Loads data into scope from csv file
   $scope.readFile = function () {
     $scope.addresses = [];
     filehandler.fileCSVParse($scope.uploadFile, $scope);
@@ -32,19 +37,18 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
   };
 
 
-
   // readFile - External function
-  //  loads data into scope from csv file
+  // loads data into scope from csv file
   $scope.writeFile = function () {
-    //$scope.addresses = [];
     filehandler.fileWriteCSV($rootScope);
   };
 
   // runFedex - External function
-  //  loads data into scope from csv file
+  // Loads data into scope from csv file
   $scope.runFedex = function () {
     fedex.checkAddress($scope, $rootScope.fdxCredentials);
   };
+
 }); 
 
 
@@ -55,13 +59,10 @@ BatchAddress.controller('MainCtrl', function($scope, $rootScope, filehandler, fe
 // Values stored in html5 localstorage using Chrome api
 // ----------------------------------------
 BatchAddress.controller('SettingsCtrl', function($scope, $rootScope) {
-  // Declare
   var chromeStore = chrome.storage.local;
 
-  // Base empty Scope
   $scope.fdxCredentials = {};
 
-  // Recover "value2" from storage
   chromeStore.get('BatchAddress', function(value){
     $scope.$apply(function() {
       $scope.fdxCredentials = value.BatchAddress;
@@ -164,6 +165,6 @@ BatchAddress.config(['$routeProvider',
         controller: 'SettingsCtrl'
       }).
       otherwise({
-        redirectTo: '/settings'
+        redirectTo: '/fileLoad'
       });
   }]);

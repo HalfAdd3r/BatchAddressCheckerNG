@@ -7,3 +7,5 @@ Newbie Created Chrome Packaged App to use FedEx WS
 
 Complete re-factoring of existing prjoect with AngularJS
 
+
+Playing with Google Dev Editor.  Seeing how good Github integration works
